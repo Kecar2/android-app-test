@@ -1,87 +1,99 @@
 import React from "react";
-import {View,StyleSheet,Text,SafeAreaView,Image} from "react-native";
-//import {SafeAreaView} from "react-native-web";
+import {View,StyleSheet,Text,Pressable,Image} from "react-native";
+import moment from "moment";
+import * as WebBrowser from 'expo-web-browser';
 
-const Article = () => {
+const Article = (props) => {
+
+    const goToSource = () =>{
+        WebBrowser.openBrowserAsync(props.url);
+    }
+
     return(
-    <SafeAreaView style={styles.container}>
-        {/* image */}
-        <Image source={{
-            uri: "https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nzh8fHRlY2h8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-        }}
-        style={styles.image}
-        />
-           <View style={{padding: 20}}>
+        <Pressable style={styles.container} onPress={goToSource}>
+            {/* image */}
+            <Image source={{
+                uri: props.urlToImage
+            }}
+            style={styles.image}
+            />
 
-        {/* title */}
-          <Text style={styles.title}>Noticias Tecnologicas</Text>
+            <View style={{padding: 20}}>
 
-        {/* description */}
-          <Text style={styles.description}>Este es un ejemplo de como se vera la noticia, Este es un ejemplo de como se vera la noticia, Este es un ejemplo de como se vera la noticia</Text>
 
-        <View style={styles.data}>
-          <Text style={styles.heading}>by: <Text style={styles.author}>Dofro Lucky</Text></Text>
-          <Text style={styles.date}>Jul 5th 22</Text>
-        </View>
+        {/*    title */}
+            <Text style={styles.title}>{props.title}</Text>
 
-        {/* source */}
-        <View style={{marginTop: 10}}>
-            <Text>source: <Text style={styles.source}>Programing</Text></Text>
-        </View>
-        </View>
-    </SafeAreaView>)
+        {/*    description */}
+            <Text style={styles.description} numberOfLines={3}>
+                {props.description}
+            </Text>
+
+            <View style={styles.data}>
+                <Text style={styles.heading}>by: <Text style={styles.author}>{props.author}</Text></Text>
+                <Text style={styles.date}>{moment(props.publishedAt).format("DD/ MM/ YYYY") }</Text>
+            </View>
+
+        {/*     source */}
+            <View style={{marginTop: 10}}>
+                <Text>source: <Text style={styles.source}>{props.sourceName}</Text></Text>
+            </View>
+            </View>
+        </Pressable>
+    )
 }
 
 export default Article;
 
 const styles = StyleSheet.create({
-    container: {
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 40,
-          shadowOpacity: 0.5,
-          shadowColor: "#000",
-          shadowOffset: {
+    container:{
+        width: "90%",
+        alignSelf: "center",
+        borderRadius: 40,
+        shadowOpacity: 0.5,
+        shadowColor: "#000",
+        shadowOffset: {
             height: 5,
             width: 5
-          },
-          backgroundColor: "#edede9"
+        },
+        backgroundColor: "#E2E2E2",
+        marginTop: 20
     },
-    image: {
-         height: 200,
-         width: "100%",
-         borderTopLeftRadius: 40,
-         borderTopRightRadius: 40
+    image:{
+        height: 200,
+        width: "100%",
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40
     },
-    title: {
+    title:{
         fontSize: 18,
         fontWeight: "600",
-        marginTop: 10,
+        marginTop: 10
     },
-    description: {
+    description:{
         fontSize: 16,
         fontWeight: "400",
         marginTop: 10
     },
-    data: {
+    data:{
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10
     },
-    heading: {
+    heading:{
 
     },
-    author: {
+    author:{
         fontWeight: "bold",
         fontSize: 15
     },
-    date: {
+    date:{
         fontWeight: "bold",
-        color: "#1e6091",
+        color: "#e63946",
         fontSize: 15
     },
-    source: {
-        color: "#1e6091",
+    source:{
+        color: "#e63946",
         fontWeight: "bold",
         fontSize: 18
     }
